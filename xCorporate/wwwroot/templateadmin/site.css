@@ -1,0 +1,16 @@
+body {
+    font-size: 0.8300rem !important
+}
+
+.main-navbar-background {
+    background-color: #263544 !important;
+}
+
+.brand-image {
+    max-height: 40px !important;
+}
+
+.nav-sidebar .nav-item .nav-link.active {
+    background-color: #3d9970 !important;
+    color: #fff !important;
+}
