@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -13,7 +14,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
-
+var configApp = builder.Configuration["MyKeyUserNameSession"];
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,7 +32,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

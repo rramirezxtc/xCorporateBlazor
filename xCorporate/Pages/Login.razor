@@ -5,14 +5,7 @@
 @inject AuthenticationStateProvider auth;
 @using xCorporate.Service;
 
-<AuthorizeView>
-    <Authorized>
-        <h1>Authorizado</h1>
-    </Authorized>
-    <NotAuthorized>
-        <h1>No Authorizado</h1>
-    </NotAuthorized>
-</AuthorizeView>
+
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
@@ -20,13 +13,13 @@
         <img id="imgFirstLogo" class="rounded mx-auto d-block mt-3 mb-3" src="/templateadmin/dist/img/Xirect.png" style="max-width:50%;">
       <h5>xCorporate</h5>
     </div>
-    <EditForm Model ="@usuario" OnValidSubmit="LoginSession">
+    <EditForm Model ="@usuario" OnValidSubmit="HandleLogin">
         <div class="card-body">
           <p class="login-box-msg">Enter with your Credentials</p>
 
           <form action="../../index3.html" method="post">
             <div class="input-group mb-3">
-              <InputText @bind-Value="usuario.Name" class="form-control" placeholder="Name" />
+              <InputText @bind-Value="usuario.Username" class="form-control" placeholder="Name" />
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-envelope"></span>
@@ -56,7 +49,7 @@
           </form>
 
           <div class="social-auth-links text-center mt-2 mb-3">
-            <a href="home" class="btn btn-block btn-primary"> LOGIN </a>
+            <input type="submit" value="Login" class="btn btn-block btn-primary" />
           </div>
           <p class="mb-1">
             <a href="#">I forgot my password</a>
@@ -70,15 +63,21 @@
 
 
 @code {
-    public Usuario usuario = new Usuario();
-
-    public async void LoginSession()
+    //public Usuario usuario = new Usuario();
+    public Usuario usuario { get; set; } = new Usuario();
+    private bool isConnected;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        //usuario-> admin contraseña->1234
-        if(usuario.Name =="admin" && usuario.Password == "1234")
+        if (firstRender)
         {
-            ((AuthenticationService)auth).Ingresar("1");
-            navigate.NavigateTo("/home");
+                isConnected = true;
+                StateHasChanged();
         }
+    }
+
+    public async void HandleLogin()
+    {
+        await ((AuthenticationService)auth).LoginAsync(usuario);
+        navigate.NavigateTo("/home", true);
     }
 }
