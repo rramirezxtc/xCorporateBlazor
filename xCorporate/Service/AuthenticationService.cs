@@ -20,11 +20,18 @@ namespace xCorporate.Service
         }
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            Usuario userSession = await GetUserSession();
+            try
+            {
+                Usuario userSession = await GetUserSession();
 
-            if (userSession != null)
-                return await GenerateAuthenticationState(userSession);
-            return await GenerateEmptyAuthenticationState();
+                if (userSession != null)
+                    return await GenerateAuthenticationState(userSession);
+                return await GenerateEmptyAuthenticationState();
+            }
+            catch (Exception)
+            {
+                return await GenerateEmptyAuthenticationState();
+            }
         }
 
         public async Task<Usuario> GetUserSession()
