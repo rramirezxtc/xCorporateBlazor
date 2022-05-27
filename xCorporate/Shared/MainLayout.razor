@@ -3,7 +3,6 @@
 @inject ProtectedSessionStorage ProtectedSessionStore
 @inject NavigationManager navigate;
 @inject IConfiguration _config
-@inject IJSRuntime js;
 
 <AuthorizeView>
     <Authorized>
@@ -43,8 +42,7 @@
             if (firstRender)
             {
                 try
-                {
-                    await js.InvokeVoidAsync("LoadTreeviewJS");
+                {       
                     var resultado = await ProtectedSessionStore.GetAsync<string>(llave);
                     if(resultado.Success)  StateHasChanged();  
                     else navigate.NavigateTo("/");
@@ -56,4 +54,4 @@
                 }     
             }
         }
-     }
+ }

@@ -1,4 +1,5 @@
-﻿@*<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject IJSRuntime js;
+@*<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">xCorporate</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -271,5 +272,13 @@
       </aside>
 
 @code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+            if (firstRender)
+            {
+                  await js.InvokeVoidAsync("LoadTreeviewJS");
+            }
+     }
 
 }
